@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>Camel Canvas</title>
+	<style>
+		body { margin: 0; }
+		canvas { border: 0px solid #000; }
+		#container { margin: 0 auto; width: 800px; }
+	</style>
+</head>
+<body>
+	<div id="container">
+<canvas id="cc" width="400" height="800">
+<p>Your browser doesn't support canvas.</p>
+</canvas>
+</div>
+<script type="text/javascript" src="js/cc.js"></script>
+<script type="text/javascript">
+CamelCanvas.init();
+CamelCanvas.addEndpoint("direct:start");
+CamelCanvas.addEndpoint("marshal:jaxb");
+CamelCanvas.addEndpoint("cxf:CADQService");
+CamelCanvas.addEndpoint("jms:ComboXMLQReportQueue");
+
+CamelCanvas.addExchange("File", "direct:start", "marshal:jaxb");
+CamelCanvas.addExchange("JAXB object", "marshal:jaxb", "cxf:CADQService");
+CamelCanvas.addExchange("DTO", "cxf:CADQService", "jms:ComboXMLQReportQueue");
+
+CamelCanvas.draw();
+//console.log(CamelCanvas);
+</script>
+</body>
+</html>
